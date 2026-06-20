@@ -1,8 +1,9 @@
+
 let drawnItems = new L.FeatureGroup();
 
-let drawingArrow = false;
-let startLatLng = null;
-let previewLine = null;
+let drawing = false;
+let start = null;
+let preview = null;
 
 function initDraw() {
 
@@ -21,58 +22,60 @@ function initDraw() {
 
   map.addControl(drawControl);
 
-  // 🟢 图形绘制
+  // =====================
+  // 图形
+  // =====================
   map.on(L.Draw.Event.CREATED, function (e) {
 
     const layer = e.layer;
+
     const color = getColorByIndex(drawnItems.getLayers().length);
 
     layer.setStyle?.({
       color,
       weight: 3,
-      opacity: 0.8,
+      opacity: 0.9,
       fillOpacity: 0.3,
       fillColor: color
     });
-
-    layer._styleConfig = { color, weight: 3, opacity: 0.8, fillOpacity: 0.3, fillColor: color };
 
     drawnItems.addLayer(layer);
 
     layer.on("click", () => openStylePanel(layer));
   });
 
-  // 🟢 箭头绘制（已修复拖动问题）
+  // =====================
+  // 箭头绘制（修复版）
+  // =====================
   map.on("mousedown", (e) => {
 
     map.dragging.disable();
 
-    drawingArrow = true;
-    startLatLng = e.latlng;
+    drawing = true;
+    start = e.latlng;
 
-    previewLine = L.polyline([startLatLng, startLatLng], {
+    preview = L.polyline([start, start], {
       color: "#00ffe5",
       dashArray: "5,5"
     }).addTo(map);
   });
 
   map.on("mousemove", (e) => {
-    if (!drawingArrow || !previewLine) return;
-    previewLine.setLatLngs([startLatLng, e.latlng]);
+    if (!drawing) return;
+    preview.setLatLngs([start, e.latlng]);
   });
 
   map.on("mouseup", (e) => {
 
-    drawingArrow = false;
-
+    drawing = false;
     map.dragging.enable();
 
     const end = e.latlng;
 
-    if (previewLine) map.removeLayer(previewLine);
+    if (preview) map.removeLayer(preview);
 
     createBattleArrow(
-      [startLatLng.lat, startLatLng.lng],
+      [start.lat, start.lng],
       [end.lat, end.lng],
       currentArrowMode
     );
@@ -86,12 +89,9 @@ function initDraw() {
       color,
       weight: 3,
       opacity: 1,
-      dashArray: "0",
       type
     });
 
     drawnItems.addLayer(arrow);
-
-    return arrow;
   };
 }
