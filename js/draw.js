@@ -1,4 +1,3 @@
-
 let drawnItems = new L.FeatureGroup();
 
 let drawingArrow = false;
@@ -9,9 +8,6 @@ function initDraw() {
 
   map.addLayer(drawnItems);
 
-  // =========================
-  // 🟢 图形绘制（不变）
-  // =========================
   const drawControl = new L.Control.Draw({
     edit: { featureGroup: drawnItems },
     draw: {
@@ -25,10 +21,10 @@ function initDraw() {
 
   map.addControl(drawControl);
 
+  // 🟢 图形绘制
   map.on(L.Draw.Event.CREATED, function (e) {
 
     const layer = e.layer;
-
     const color = getColorByIndex(drawnItems.getLayers().length);
 
     layer.setStyle?.({
@@ -39,28 +35,17 @@ function initDraw() {
       fillColor: color
     });
 
-    layer._styleConfig = {
-      color,
-      weight: 3,
-      opacity: 0.8,
-      fillOpacity: 0.3,
-      fillColor: color
-    };
+    layer._styleConfig = { color, weight: 3, opacity: 0.8, fillOpacity: 0.3, fillColor: color };
 
     drawnItems.addLayer(layer);
 
     layer.on("click", () => openStylePanel(layer));
   });
 
-  // =========================
-  // 🟢 箭头绘制（🔥修复核心）
-  // =========================
-
+  // 🟢 箭头绘制（已修复拖动问题）
   map.on("mousedown", (e) => {
 
-    // 🚨关键修复：禁止地图拖动
     map.dragging.disable();
-    map.doubleClickZoom.disable();
 
     drawingArrow = true;
     startLatLng = e.latlng;
@@ -72,28 +57,19 @@ function initDraw() {
   });
 
   map.on("mousemove", (e) => {
-
     if (!drawingArrow || !previewLine) return;
-
     previewLine.setLatLngs([startLatLng, e.latlng]);
   });
 
   map.on("mouseup", (e) => {
 
-    if (!drawingArrow) return;
-
     drawingArrow = false;
+
+    map.dragging.enable();
 
     const end = e.latlng;
 
-    // 🚨关键修复：恢复地图拖动
-    map.dragging.enable();
-    map.doubleClickZoom.enable();
-
-    if (previewLine) {
-      map.removeLayer(previewLine);
-      previewLine = null;
-    }
+    if (previewLine) map.removeLayer(previewLine);
 
     createBattleArrow(
       [startLatLng.lat, startLatLng.lng],
@@ -102,9 +78,6 @@ function initDraw() {
     );
   });
 
-  // =========================
-  // API
-  // =========================
   window.createBattleArrow = function(from, to, type) {
 
     const color = getColorByIndex(drawnItems.getLayers().length);
@@ -112,7 +85,7 @@ function initDraw() {
     const arrow = createArrow(map, from, to, {
       color,
       weight: 3,
-      opacity: 0.9,
+      opacity: 1,
       dashArray: "0",
       type
     });
