@@ -15,26 +15,29 @@
 
 <div id="ui-root">
 
-  <!-- 🟡 右侧面板 -->
   <div id="panel">
     <h3>Style Editor</h3>
-    <p>Select object</p>
   </div>
 
 </div>
 
-<!-- 🟢 左下角箭头工具 -->
-<div id="sidebar">
-  <div id="sidebar-header" onclick="toggleSidebar()">
-    ⚔ Arrow Tools ▾
+<!-- 🟢 功能区（可折叠） -->
+<div id="sidebar" class="expanded">
+
+  <div id="sidebar-mini" onclick="toggleSidebar()">
+    ⚔
   </div>
 
   <div id="sidebar-body">
-    <button onclick="setArrowMode('line')">➡ Line</button>
-    <button onclick="setArrowMode('dashed')">➖ Dashed</button>
-    <button onclick="setArrowMode('arc')">🌙 Arc</button>
+
+    <button onclick="setArrowMode('line')">Line</button>
+    <button onclick="setArrowMode('dashed')">Dashed</button>
+    <button onclick="setArrowMode('arc')">Arc</button>
+
     <hr/>
+
     <p>Drag on map</p>
+
   </div>
 </div>
 
