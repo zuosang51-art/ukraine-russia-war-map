@@ -1,43 +1,52 @@
-function createArrow(map, from, to, style = {}) {
 
-  const {
+// =========================
+// 🟢 凸四边形箭头（核心重写）
+// =========================
+function createArrow(map, from, to, style) {
+
+  const color = style.color;
+
+  const lat1 = from[0], lng1 = from[1];
+  const lat2 = to[0], lng2 = to[1];
+
+  const dx = lng2 - lng1;
+  const dy = lat2 - lat1;
+
+  const len = Math.sqrt(dx*dx + dy*dy);
+
+  const ux = dx / len;
+  const uy = dy / len;
+
+  const px = -uy * 0.3;
+  const py = ux * 0.3;
+
+  // =========================
+  // 🟢 四边形箭头（凸形）
+  // =========================
+  const arrowHead = L.polygon([
+    [lat2, lng2],
+    [lat2 - ux * 0.4 + px, lng2 - uy * 0.4 + py],
+    [lat2 - ux * 0.8, lng2 - uy * 0.8],
+    [lat2 - ux * 0.4 - px, lng2 - uy * 0.4 - py]
+  ], {
     color,
-    weight,
-    opacity,
-    dashArray,
-    type
-  } = style;
-
-  let latlngs = [];
-
-  if (type === "line" || type === "dashed") {
-    latlngs = [from, to];
-  }
-
-  if (type === "arc") {
-
-    const mid = [
-      (from[0] + to[0]) / 2,
-      (from[1] + to[1]) / 2
-    ];
-
-    latlngs = [
-      from,
-      [mid[0] + 0.8, mid[1] + 0.8],
-      to
-    ];
-  }
-
-  const layer = L.polyline(latlngs, {
-    color,
-    weight,
-    opacity,
-    dashArray: type === "dashed" ? "10,10" : dashArray
+    fillColor: color,
+    fillOpacity: 0.8,
+    weight: 2
   }).addTo(map);
 
-  layer._styleConfig = style;
+  // =========================
+  // 🟢 线
+  // =========================
+  const line = L.polyline([from, to], {
+    color,
+    weight: 3,
+    opacity: 1
+  }).addTo(map);
 
-  layer.on("click", () => openStylePanel(layer));
+  const group = L.layerGroup([line, arrowHead]);
 
-  return layer;
+  group._styleConfig = style;
+
+  return group;
 }
