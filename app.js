@@ -1,24 +1,12 @@
 document.addEventListener(
 "DOMContentLoaded",
-()=>{
+function(){
+
+
+    console.log("APP LOAD");
 
 
     initMap();
-
-
-
-    setTimeout(()=>{
-
-
-        if(typeof initDraw==="function"){
-
-            initDraw();
-
-        }
-
-
-
-    },300);
 
 
 
