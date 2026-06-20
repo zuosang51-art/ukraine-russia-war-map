@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>War GIS System</title>
+<title>War GIS V2</title>
 
 <link rel="stylesheet" href="style.css"/>
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
@@ -14,34 +14,36 @@
 
 <div id="map"></div>
 
-<div id="ui-root">
+<div id="ui">
 
   <div id="panel">
     <h3>Style Editor</h3>
-    <input type="color" id="colorPicker"/>
+    <input type="color" id="color"/>
     <input type="range" id="opacity" min="0" max="1" step="0.1"/>
+    <input type="range" id="width" min="1" max="10"/>
   </div>
 
-</div>
+  <div id="toolbar">
+    <button onclick="setMode('line')">Line</button>
+    <button onclick="setMode('dash')">Dash</button>
+    <button onclick="setMode('arc')">Arc</button>
+    <button onclick="setMode('arrow')">Arrow</button>
+    <button onclick="toggleLabel()">Label</button>
+    <button onclick="loadKML()">KML</button>
+  </div>
 
-<div id="toolbar">
-  <button onclick="toggleTool()">☰</button>
-  <button onclick="setDraw('line')">线</button>
-  <button onclick="setDraw('dash')">虚线</button>
-  <button onclick="setDraw('arc')">弧线</button>
-  <button onclick="setDraw('arrow')">箭头</button>
-  <button onclick="loadKML()">KML</button>
 </div>
 
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
 
-<script src="gis-core.js"></script>
+<script src="core.js"></script>
+<script src="map.js"></script>
 <script src="draw.js"></script>
 <script src="arrow.js"></script>
+<script src="style.js"></script>
 <script src="kml.js"></script>
 <script src="ui.js"></script>
-<script src="app.js"></script>
 
 </body>
 </html>
