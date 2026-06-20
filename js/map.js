@@ -1,8 +1,6 @@
 
 let map;
-
-// 🟢 KML 永久顶层
-let kmlLayerGroup = L.layerGroup();
+let kmlLayerGroup;
 
 function initMap() {
 
@@ -10,7 +8,11 @@ function initMap() {
 
   L.tileLayer("https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png").addTo(map);
 
-  // 🟢 KML层（永远在最上层）
-  kmlLayerGroup.addTo(map);
-  kmlLayerGroup.setZIndex(99999);
+  // 🟢 KML顶层
+  kmlLayerGroup = L.layerGroup().addTo(map);
+
+  // 🟢 强制最高层级
+  kmlLayerGroup.setZIndex = function () {
+    return this;
+  };
 }
