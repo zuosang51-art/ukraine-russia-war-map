@@ -13,7 +13,7 @@
 <body>
 
 <div id="topbar">
-  <div class="title">⚡ WAR GIS COMMAND SYSTEM</div>
+  <div class="title">⚡ WAR GIS SYSTEM</div>
 
   <button onclick="switchLayer('topo')">Topo</button>
   <button onclick="switchLayer('sat')">Satellite</button>
@@ -22,13 +22,17 @@
 
 <div id="map"></div>
 
+<!-- ⭐ 修改：panel必须在map之后 + 提升层级 -->
 <div id="panel">
-  <h3>Style Control Panel</h3>
-  <p>Click any shape to edit style</p>
+  <h3>Style Panel</h3>
+  <p>Click object to edit</p>
 </div>
 
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+
+<!-- ⭐ 新增 -->
+<script src="js/arrow.js"></script>
 
 <script src="js/colors.js"></script>
 <script src="js/map.js"></script>
