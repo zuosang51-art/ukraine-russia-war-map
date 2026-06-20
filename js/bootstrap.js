@@ -1,43 +1,28 @@
 window.GIS = {
-  ready: false,
-  map: null,
-  layers: {}
+  ready:false,
+  map:null,
+  layers:{}
 };
 
-function GIS_START() {
+function GIS_START(){
 
-  console.log("GIS BOOT");
+  console.log("BOOT");
 
-  const map = L.map("map", {
-    zoomControl: true,
-    preferCanvas: true
-  });
+  const map = L.map("map").setView([48.5,37.7],6);
 
-  map.setView([48.5, 37.7], 6);
-
-  GIS.map = map;
   window.map = map;
+  GIS.map = map;
 
-  // 地图层
-  GIS.layers.topo = L.tileLayer(
+  GIS.layers.base = L.tileLayer(
     "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png"
   ).addTo(map);
 
-  GIS.layers.sat = L.tileLayer(
-    "https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}"
-  );
-
-  GIS.layers.street = L.tileLayer(
-    "https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}"
-  );
-
-  // KML层（最高）
   GIS.layers.kml = L.layerGroup().addTo(map);
   window.kmlLayerGroup = GIS.layers.kml;
 
   GIS.ready = true;
 
-  console.log("GIS READY");
+  console.log("READY");
 
   document.dispatchEvent(new Event("GIS_READY"));
 }
