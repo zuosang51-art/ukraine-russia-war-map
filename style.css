@@ -5,47 +5,64 @@ body {
   color: #00ffe5;
 }
 
+/* =========================
+   地图层（降低层级）
+========================= */
 #map {
   width: 100%;
   height: 100vh;
+  z-index: 1;
 }
 
-/* ⭐ 顶栏 */
+/* ⭐⭐⭐ Leaflet容器降层（关键修复） */
+.leaflet-container {
+  z-index: 1 !important;
+}
+
+/* =========================
+   顶栏
+========================= */
 #topbar {
-  position: absolute;
+  position: fixed;
   top: 10px;
   left: 10px;
-  z-index: 999;
+  z-index: 10000;
   background: rgba(0,0,0,0.6);
   padding: 10px;
   border: 1px solid #00ffe5;
   box-shadow: 0 0 15px #00ffe5;
 }
 
-/* ⭐ 按钮 */
+/* =========================
+   UI面板（核心修复）
+========================= */
+#panel {
+  position: fixed;   /* ⭐必须fixed */
+  right: 10px;
+  top: 80px;
+
+  width: 260px;
+
+  background: rgba(0,0,0,0.85);
+  border: 1px solid #00ffe5;
+
+  padding: 10px;
+  box-shadow: 0 0 25px #00ffe5;
+
+  /* ⭐⭐⭐关键：最高层级 */
+  z-index: 999999 !important;
+
+  /* 防止被地图捕获事件 */
+  pointer-events: auto;
+}
+
+/* 按钮 */
 button {
   background: transparent;
   border: 1px solid #00ffe5;
   color: #00ffe5;
   margin: 3px;
   cursor: pointer;
-}
-
-/* ⭐⭐⭐⭐⭐ 关键修复：panel必须在最上层 */
-#panel {
-  position: absolute;
-  right: 10px;
-  top: 80px;
-
-  width: 260px;
-
-  background: rgba(0,0,0,0.8);
-  border: 1px solid #00ffe5;
-  padding: 10px;
-
-  box-shadow: 0 0 20px #00ffe5;
-
-  z-index: 9999;   /* ⭐关键：解决被地图盖住 */
 }
 
 /* 输入控件 */
