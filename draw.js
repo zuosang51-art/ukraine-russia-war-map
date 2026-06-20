@@ -1,14 +1,9 @@
-let drawMode = "line";
-
-function setDraw(m){
-  drawMode = m;
-}
-
-// 面积/多边形
 function initDraw(){
 
+  const map = GIS.map;
+
   const drawControl = new L.Control.Draw({
-    edit:{featureGroup:drawnItems},
+    edit:{featureGroup:GIS.drawn},
     draw:{
       polygon:true,
       rectangle:true,
@@ -20,26 +15,29 @@ function initDraw(){
   map.addControl(drawControl);
 
   map.on(L.Draw.Event.CREATED,(e)=>{
-
     const layer = e.layer;
 
     layer.setStyle?.({
-      color:"#00ffe5",
+      color:GIS.style.color,
+      weight:GIS.style.width,
+      opacity:GIS.style.opacity,
       fillOpacity:0.3
     });
 
-    drawnItems.addLayer(layer);
-
+    GIS.drawn.addLayer(layer);
   });
 
-  // 箭头绘制
   let start=null;
 
-  map.on("mousedown",(e)=>start=e.latlng);
+  map.on("mousedown",e=>start=e.latlng);
 
-  map.on("mouseup",(e)=>{
+  map.on("mouseup",e=>{
     if(!start)return;
-    createArrow(start,e.latlng);
+
+    if(GIS.mode==="arrow"){
+      drawArrow(start,e.latlng);
+    }
+
     start=null;
   });
 }
