@@ -1,5 +1,4 @@
 let map;
-
 let layers = {};
 
 function initMap() {
