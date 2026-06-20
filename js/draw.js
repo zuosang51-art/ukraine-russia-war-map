@@ -1,15 +1,9 @@
 let drawnItems = new L.FeatureGroup();
-let currentLayer = null;
 
 function applyStyle(layer, style) {
 
   if (layer.setStyle) {
-    layer.setStyle({
-      color: style.color,
-      weight: style.weight,
-      opacity: style.opacity,
-      dashArray: style.dashArray
-    });
+    layer.setStyle(style);
   }
 
   layer._styleConfig = style;
@@ -48,17 +42,17 @@ function initDraw() {
     layer.on("click", () => openStylePanel(layer));
   });
 
-  // 🟡 战线箭头API
-  window.createBattleArrow = function(from, to, type = "line") {
+  // 🆕 战线箭头API（接入UI模式）
+  window.createBattleArrow = function(from, to, type) {
 
     const color = getColorByIndex(drawnItems.getLayers().length);
 
     const arrow = createArrow(map, from, to, {
       color,
       weight: 3,
+      opacity: 1,
       dashArray: "0",
-      type,
-      opacity: 1
+      type: type || currentArrowMode
     });
 
     drawnItems.addLayer(arrow);
