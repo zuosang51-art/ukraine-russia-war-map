@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>War Map GIS System</title>
+
+  <link rel="stylesheet" href="style.css"/>
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css"/>
+</head>
+
+<body>
+
+<div id="topbar">
+  <div class="title">⚡ War Map GIS Control System</div>
+
+  <button onclick="switchLayer('topo')">Topo</button>
+  <button onclick="switchLayer('sat')">Satellite</button>
+  <button onclick="switchLayer('street')">Street</button>
+</div>
+
+<div id="map"></div>
+
+<div id="panel">
+  <h3>Layers & Tools</h3>
+  <p>Draw lines / polygons / arrows</p>
+</div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+
+<script src="js/colors.js"></script>
+<script src="js/map.js"></script>
+<script src="js/draw.js"></script>
+<script src="js/ui.js"></script>
+
+<script src="app.js"></script>
+
+</body>
+</html>
