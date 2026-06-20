@@ -1,3 +1,7 @@
-document.addEventListener("DOMContentLoaded", () => {
-  GIS_START();
-});
+window.onload=function(){
+
+  initGIS();
+
+  initDraw();
+
+};
