@@ -1,95 +1,107 @@
+// =========================
+// MAP CORE
+// =========================
+
+
 let map;
 
-let layers={};
 
+let topoLayer;
+let satLayer;
+let streetLayer;
 
 let kmlLayerGroup;
 
-
-
 function initMap(){
 
+    console.log("Map start");
 
+    // 防止重复初始化
 
-    layers.topo =
+    if(map){
+
+        return;
+
+    }
+    map = L.map("map",{
+
+        zoomControl:true,
+
+        preferCanvas:true
+
+    });
+
+    map.setView(
+
+        [48.5,37.7],
+
+        6
+
+    );
+
+    // 地形
+
+    topoLayer =
     L.tileLayer(
+
     "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png",
+
     {
-        maxZoom:18
-    });
 
+    maxZoom:18
 
+    }
 
-    layers.sat =
+    );
+
+    // 卫星
+
+    satLayer =
     L.tileLayer(
+
     "https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}"
+
     );
 
+    // 城镇
 
-
-    layers.street =
+    streetLayer =
     L.tileLayer(
+
     "https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}"
+
     );
 
+    // 默认地形
 
+    topoLayer.addTo(map);
 
-
-
-    map=L.map(
-    "map",
-    {
-
-        center:[48.5,37.7],
-
-        zoom:6,
-
-        layers:[
-            layers.topo
-        ]
-
-    });
-
-
-
-
-
-    /*
-       图层切换
-    */
-
+    // 图层按钮
 
     L.control.layers(
 
     {
 
-    "Topographic":
+    "地形":
 
-    layers.topo,
+    topoLayer,
+
+    "卫星":
+
+    satLayer,
 
 
-    "Satellite":
+    "城镇":
 
-    layers.sat,
-
-
-    "Street":
-
-    layers.street
-
+    streetLayer
 
     }
 
-    ).addTo(map);
+    )
 
+    .addTo(map);
 
-
-
-
-    /*
-      KML最高层
-    */
-
+    // KML最高层
 
     kmlLayerGroup =
     L.layerGroup();
@@ -98,13 +110,7 @@ function initMap(){
     kmlLayerGroup.addTo(map);
 
 
-
-
-
-    /*
-      修复白屏
-    */
-
+    // 强制刷新
 
     setTimeout(()=>{
 
@@ -112,8 +118,10 @@ function initMap(){
         map.invalidateSize();
 
 
+        console.log("Map ready");
 
-    },500);
+
+    },1000);
 
 
 
