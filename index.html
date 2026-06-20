@@ -2,11 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>War GIS System</title>
+  <title>GIS War Map</title>
 
   <link rel="stylesheet" href="style.css"/>
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css"/>
 </head>
 
 <body>
@@ -21,12 +20,10 @@
 
 </div>
 
-<!-- 🟢 功能区（可折叠） -->
+<!-- 🟢 左下工具栏 -->
 <div id="sidebar" class="expanded">
 
-  <div id="sidebar-mini" onclick="toggleSidebar()">
-    ⚔
-  </div>
+  <div id="sidebar-mini" onclick="toggleSidebar()">⚔</div>
 
   <div id="sidebar-body">
 
@@ -36,21 +33,19 @@
 
     <hr/>
 
-    <p>Drag on map</p>
+    <!-- 🆕 标注 -->
+    <button onclick="enableLabelMode()">Label</button>
+
+    <!-- 🆕 KML -->
+    <input type="file" id="kmlInput" accept=".kml" />
 
   </div>
 </div>
 
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
-
-<script src="js/colors.js"></script>
 <script src="js/map.js"></script>
-<script src="js/arrow.js"></script>
-<script src="js/draw.js"></script>
+<script src="js/kml.js"></script>
 <script src="js/ui.js"></script>
-
-<script src="app.js"></script>
 
 </body>
 </html>
