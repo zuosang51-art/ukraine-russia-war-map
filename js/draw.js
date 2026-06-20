@@ -1,7 +1,7 @@
 document.addEventListener("GIS_READY",()=>{
 
   const drawn = new L.FeatureGroup().addTo(GIS.map);
-
+  
   const control = new L.Control.Draw({
     edit:{featureGroup:drawn},
     draw:{polygon:true,rectangle:true,polyline:true,marker:true}
