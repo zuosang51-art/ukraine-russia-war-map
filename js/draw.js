@@ -1,19 +1,14 @@
 let drawnItems = new L.FeatureGroup();
 let currentLayer = null;
 
-const defaultStyle = {
-  color: "#ff3b30",
-  weight: 3,
-  dashArray: "0"
-};
-
 function applyStyle(layer, style) {
-  layer.setStyle({
-    color: style.color,
-    weight: style.weight,
-    dashArray: style.dashArray,
-    opacity: 1
-  });
+  if (layer.setStyle) {
+    layer.setStyle({
+      color: style.color,
+      weight: style.weight,
+      dashArray: style.dashArray
+    });
+  }
 
   layer._styleConfig = style;
 }
@@ -26,11 +21,10 @@ function initDraw() {
     edit: { featureGroup: drawnItems },
     draw: {
       polygon: true,
-      polyline: true,
+      polyline: false,
       rectangle: true,
       marker: true,
-      circle: false,
-      circlemarker: false
+      circle: false
     }
   });
 
@@ -40,28 +34,33 @@ function initDraw() {
 
     const layer = e.layer;
 
-    // 🎨 自动分配颜色（增强版）
     const color = getColorByIndex(drawnItems.getLayers().length);
 
     applyStyle(layer, {
-      color: color,
+      color,
       weight: 3,
       dashArray: "0"
     });
 
     drawnItems.addLayer(layer);
 
-    // 📏 面积
-    if (layer instanceof L.Polygon) {
-      const area = L.GeometryUtil.geodesicArea(layer.getLatLngs()[0]);
-      layer.bindPopup("Area: " + (area / 1000000).toFixed(2) + " km²");
-    }
-
-    layer.bindPopup("Click to edit style");
-
-    // 🎛 点击编辑样式
-    layer.on("click", function () {
-      openStylePanel(layer);
-    });
+    layer.on("click", () => openStylePanel(layer));
   });
+
+  // ⭐ 外部箭头接口
+  window.createBattleArrow = function(from, to, type = "line") {
+
+    const color = getColorByIndex(drawnItems.getLayers().length);
+
+    const arrow = createArrow(map, from, to, {
+      color,
+      weight: 3,
+      dashArray: "0",
+      type
+    });
+
+    drawnItems.addLayer(arrow);
+
+    return arrow;
+  };
 }
