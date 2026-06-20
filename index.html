@@ -5,25 +5,39 @@
   <title>War GIS System</title>
 
   <link rel="stylesheet" href="style.css"/>
-
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css"/>
 </head>
 
 <body>
 
-<!-- 🟡 地图层 -->
+<!-- 🗺 地图 -->
 <div id="map"></div>
 
-<!-- 🟡 UI层（修复：独立stacking context） -->
+<!-- 🧠 UI层 -->
 <div id="ui-root">
 
+  <!-- 🔵 顶栏（不变） -->
   <div id="topbar">
     <button onclick="switchLayer('topo')">Topo</button>
     <button onclick="switchLayer('sat')">Satellite</button>
     <button onclick="switchLayer('street')">Street</button>
   </div>
 
+  <!-- 🟡 左侧工具栏（新增箭头功能区） -->
+  <div id="sidebar">
+    <h3>Arrow Tools</h3>
+
+    <button onclick="setArrowMode('line')">➡ Line</button>
+    <button onclick="setArrowMode('dashed')">➖ Dashed</button>
+    <button onclick="setArrowMode('arc')">🌙 Arc</button>
+
+    <hr/>
+
+    <button onclick="testArrow()">🧪 Test Arrow</button>
+  </div>
+
+  <!-- 🔴 右侧样式面板（不变） -->
   <div id="panel">
     <h3>Style Editor</h3>
     <p>Select object</p>
