@@ -33,19 +33,22 @@
 
     <hr/>
 
-    <!-- 🆕 标注 -->
-    <button onclick="enableLabelMode()">Label</button>
+    <button onclick="loadKML('./kml/frontline.kml')">Load KML</button>
 
-    <!-- 🆕 KML -->
-    <input type="file" id="kmlInput" accept=".kml" />
+    <p style="font-size:12px;">GitHub KML Loader</p>
 
   </div>
 </div>
 
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
 <script src="js/map.js"></script>
 <script src="js/kml.js"></script>
+<script src="js/draw.js"></script>
+<script src="js/arrow.js"></script>
 <script src="js/ui.js"></script>
+
+<script src="app.js"></script>
 
 </body>
 </html>
