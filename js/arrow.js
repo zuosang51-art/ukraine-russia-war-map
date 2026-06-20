@@ -1,1 +1,7 @@
-document.addEventListener("GIS_READY", initArrow);
+document.addEventListener("GIS_READY",()=>{
+
+  window.setArrowMode = function(mode){
+    window.currentArrowMode = mode;
+  };
+
+});
