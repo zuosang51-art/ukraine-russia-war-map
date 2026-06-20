@@ -9,7 +9,6 @@ function applyStyle(layer, style) {
       dashArray: style.dashArray
     });
   }
-
   layer._styleConfig = style;
 }
 
@@ -34,10 +33,8 @@ function initDraw() {
 
     const layer = e.layer;
 
-    const color = getColorByIndex(drawnItems.getLayers().length);
-
     applyStyle(layer, {
-      color,
+      color: getColorByIndex(drawnItems.getLayers().length),
       weight: 3,
       dashArray: "0"
     });
@@ -47,7 +44,7 @@ function initDraw() {
     layer.on("click", () => openStylePanel(layer));
   });
 
-  // ⭐ 外部箭头接口
+  // ⭐ 外部箭头API
   window.createBattleArrow = function(from, to, type = "line") {
 
     const color = getColorByIndex(drawnItems.getLayers().length);
