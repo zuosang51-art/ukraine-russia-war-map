@@ -1,3 +1,4 @@
+
 let drawnItems = new L.FeatureGroup();
 
 let drawingArrow = false;
@@ -9,7 +10,7 @@ function initDraw() {
   map.addLayer(drawnItems);
 
   // =========================
-  // 🟢 画图工具（polygon/rect）
+  // 🟢 图形绘制（不变）
   // =========================
   const drawControl = new L.Control.Draw({
     edit: { featureGroup: drawnItems },
@@ -30,17 +31,11 @@ function initDraw() {
 
     const color = getColorByIndex(drawnItems.getLayers().length);
 
-    // ⭐⭐⭐关键修复：面 + 线统一样式
     layer.setStyle?.({
-      color: color,
+      color,
       weight: 3,
-
-      // ✔ 线透明度
       opacity: 0.8,
-
-      // ✔ 面透明度（关键修复）
       fillOpacity: 0.3,
-
       fillColor: color
     });
 
@@ -58,9 +53,14 @@ function initDraw() {
   });
 
   // =========================
-  // 🟢 箭头绘制（修复版）
+  // 🟢 箭头绘制（🔥修复核心）
   // =========================
+
   map.on("mousedown", (e) => {
+
+    // 🚨关键修复：禁止地图拖动
+    map.dragging.disable();
+    map.doubleClickZoom.disable();
 
     drawingArrow = true;
     startLatLng = e.latlng;
@@ -86,8 +86,14 @@ function initDraw() {
 
     const end = e.latlng;
 
-    map.removeLayer(previewLine);
-    previewLine = null;
+    // 🚨关键修复：恢复地图拖动
+    map.dragging.enable();
+    map.doubleClickZoom.enable();
+
+    if (previewLine) {
+      map.removeLayer(previewLine);
+      previewLine = null;
+    }
 
     createBattleArrow(
       [startLatLng.lat, startLatLng.lng],
