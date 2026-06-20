@@ -1,18 +1,15 @@
 body {
   margin: 0;
   overflow: hidden;
-  background: #05070f;
   font-family: Arial;
 }
 
-/* 🗺 地图 */
 #map {
   position: absolute;
   inset: 0;
-  z-index: 1;
 }
 
-/* 🧠 UI层 */
+/* UI层 */
 #ui-root {
   position: fixed;
   inset: 0;
@@ -20,12 +17,11 @@ body {
   pointer-events: none;
 }
 
-/* UI可交互 */
 #ui-root * {
   pointer-events: auto;
 }
 
-/* 🔵 顶栏（左上） */
+/* 顶栏 */
 #topbar {
   position: absolute;
   top: 10px;
@@ -33,28 +29,44 @@ body {
 
   background: rgba(0,0,0,0.6);
   border: 1px solid #00ffe5;
-  padding: 10px;
+  padding: 8px;
   color: #00ffe5;
 }
 
-/* 🟡 左侧工具栏（新增，避免重叠） */
+/* 🟢 左下角 sidebar */
 #sidebar {
   position: absolute;
   left: 10px;
-  top: 140px; /* ⭐关键：避开topbar */
+  bottom: 10px;
 
-  width: 150px;
+  width: 170px;
 
   background: rgba(0,0,0,0.85);
   border: 1px solid #00ffe5;
 
-  padding: 10px;
   color: #00ffe5;
 
-  box-shadow: 0 0 10px #00ffe5;
+  box-shadow: 0 0 15px #00ffe5;
 }
 
-/* 🔴 右侧面板 */
+/* header */
+#sidebar-header {
+  padding: 6px;
+  cursor: pointer;
+  background: rgba(0,255,229,0.1);
+}
+
+/* body */
+#sidebar-body {
+  padding: 6px;
+}
+
+/* 折叠 */
+#sidebar.collapsed #sidebar-body {
+  display: none;
+}
+
+/* 右侧面板 */
 #panel {
   position: absolute;
   right: 10px;
@@ -65,27 +77,6 @@ body {
   background: rgba(0,0,0,0.85);
   border: 1px solid #00ffe5;
 
-  box-shadow: 0 0 20px #00ffe5;
-
   color: #00ffe5;
   padding: 10px;
-}
-
-/* 按钮 */
-button {
-  background: transparent;
-  border: 1px solid #00ffe5;
-  color: #00ffe5;
-  margin: 3px;
-  cursor: pointer;
-  width: 100%;
-}
-
-/* 输入 */
-input, select {
-  width: 100%;
-  margin: 5px 0;
-  background: black;
-  color: #00ffe5;
-  border: 1px solid #00ffe5;
 }
