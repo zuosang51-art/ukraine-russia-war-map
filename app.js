@@ -1,5 +1,16 @@
+document.addEventListener(
+"DOMContentLoaded",
+()=>{
 
-window.onload = function () {
-  initMap();
-  initDraw();
-};
+
+    initMap();
+
+
+    if(typeof initDraw==="function"){
+
+        initDraw();
+
+    }
+
+
+});
