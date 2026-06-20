@@ -1,23 +1,18 @@
-document.addEventListener("GIS_READY",()=>{
+function toggleTool(){
+  alert("toolbar toggle placeholder");
+}
 
-  window.enableLabelMode = function(){
+function addLabel(latlng,text){
 
-    const text = prompt("Label:");
-    if(!text) return;
-
-    GIS.map.on("click", function handler(e){
-
-      L.marker(e.latlng,{
-        icon:L.divIcon({
-          className:"",
-          html:"<div style='color:#0ff;background:#000a;padding:2px;border:1px solid #0ff'>"+text+"</div>"
-        })
-      }).addTo(GIS.map);
-
-      GIS.map.off("click", handler);
-
-    });
-
-  };
-
-});
+  L.marker(latlng,{
+    icon:L.divIcon({
+      className:"",
+      html:`<div style="
+        background:black;
+        color:#0ff;
+        border:1px solid #0ff;
+        padding:2px;
+      ">${text}</div>`
+    })
+  }).addTo(map);
+}
