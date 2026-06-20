@@ -1,60 +1,60 @@
-let currentArrowMode = "line";
-let drawing = false;
-let startPoint = null;
-let tempLine = null;
+let currentLayer = null;
 
-// =========================
-// 折叠功能
-// =========================
-function toggleSidebar() {
-  document.getElementById("sidebar").classList.toggle("collapsed");
+function openStylePanel(layer) {
+
+  currentLayer = layer;
+
+  const s = layer._styleConfig || {
+    color: "#ff3b30",
+    weight: 3,
+    opacity: 0.8,
+    fillOpacity: 0.3,
+    fillColor: "#ff3b30"
+  };
+
+  document.getElementById("panel").innerHTML = `
+    <h3>Style Editor</h3>
+
+    <label>Stroke Color</label>
+    <input type="color" id="color" value="${s.color}">
+
+    <label>Fill Color</label>
+    <input type="color" id="fillColor" value="${s.fillColor || s.color}">
+
+    <label>Weight</label>
+    <input type="range" id="weight" min="1" max="10" value="${s.weight}">
+
+    <label>Stroke Opacity</label>
+    <input type="range" id="opacity" min="0.1" max="1" step="0.1" value="${s.opacity}">
+
+    <label>Fill Opacity</label>
+    <input type="range" id="fillOpacity" min="0.1" max="1" step="0.1" value="${s.fillOpacity}">
+
+    <button onclick="applyLayerStyle()">Apply</button>
+  `;
 }
 
-// =========================
-// 设置模式
-// =========================
-function setArrowMode(mode) {
-  currentArrowMode = mode;
-}
+function applyLayerStyle() {
 
-// =========================
-// 地图事件（核心重写）
-// =========================
-function enableArrowDrawing() {
+  if (!currentLayer) return;
 
-  map.on("mousedown", function (e) {
+  const style = {
+    color: document.getElementById("color").value,
+    fillColor: document.getElementById("fillColor").value,
+    weight: +document.getElementById("weight").value,
+    opacity: +document.getElementById("opacity").value,
+    fillOpacity: +document.getElementById("fillOpacity").value
+  };
 
-    drawing = true;
-    startPoint = e.latlng;
+  currentLayer.setStyle({
+    color: style.color,
+    weight: style.weight,
 
-    tempLine = L.polyline([startPoint, startPoint], {
-      color: "#00ffe5",
-      dashArray: "5,5"
-    }).addTo(map);
+    // ⭐关键修复
+    opacity: style.opacity,
+    fillOpacity: style.fillOpacity,
+    fillColor: style.fillColor
   });
 
-  map.on("mousemove", function (e) {
-
-    if (!drawing || !tempLine) return;
-
-    tempLine.setLatLngs([startPoint, e.latlng]);
-  });
-
-  map.on("mouseup", function (e) {
-
-    if (!drawing) return;
-
-    drawing = false;
-
-    const end = e.latlng;
-
-    map.removeLayer(tempLine);
-    tempLine = null;
-
-    createBattleArrow(
-      [startPoint.lat, startPoint.lng],
-      [end.lat, end.lng],
-      currentArrowMode
-    );
-  });
+  currentLayer._styleConfig = style;
 }
