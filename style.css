@@ -5,29 +5,27 @@ body {
   font-family: Arial;
 }
 
-/* ❌ 不动地图 */
+/* 🗺 地图 */
 #map {
   position: absolute;
   inset: 0;
   z-index: 1;
 }
 
-/* 🟡 UI根层（关键修复） */
+/* 🧠 UI层 */
 #ui-root {
   position: fixed;
   inset: 0;
-
   z-index: 9999999;
-
-  pointer-events: none; /* 不挡地图 */
+  pointer-events: none;
 }
 
-/* 🟡 UI可交互 */
+/* UI可交互 */
 #ui-root * {
   pointer-events: auto;
 }
 
-/* 顶栏 */
+/* 🔵 顶栏（左上） */
 #topbar {
   position: absolute;
   top: 10px;
@@ -35,12 +33,28 @@ body {
 
   background: rgba(0,0,0,0.6);
   border: 1px solid #00ffe5;
-
   padding: 10px;
   color: #00ffe5;
 }
 
-/* 面板 */
+/* 🟡 左侧工具栏（新增，避免重叠） */
+#sidebar {
+  position: absolute;
+  left: 10px;
+  top: 140px; /* ⭐关键：避开topbar */
+
+  width: 150px;
+
+  background: rgba(0,0,0,0.85);
+  border: 1px solid #00ffe5;
+
+  padding: 10px;
+  color: #00ffe5;
+
+  box-shadow: 0 0 10px #00ffe5;
+}
+
+/* 🔴 右侧面板 */
 #panel {
   position: absolute;
   right: 10px;
@@ -64,6 +78,7 @@ button {
   color: #00ffe5;
   margin: 3px;
   cursor: pointer;
+  width: 100%;
 }
 
 /* 输入 */
