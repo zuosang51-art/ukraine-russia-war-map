@@ -1,3 +1,9 @@
-document.addEventListener("GIS_READY", () => {
-  console.log("KML ready");
+document.addEventListener("GIS_READY",()=>{
+
+  window.loadKML = function(){
+
+    alert("KML loader ready (stub)");
+
+  };
+
 });
