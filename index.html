@@ -1,28 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>GIS War Map</title>
+<meta charset="UTF-8">
+<title>GIS War Map</title>
 
-  <link rel="stylesheet" href="style.css"/>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
-
-  <!-- 🟢 防止地图容器未渲染 -->
-  <style>
-    html,body{
-      margin:0;
-      padding:0;
-      width:100%;
-      height:100%;
-      overflow:hidden;
-    }
-
-    #map{
-      width:100%;
-      height:100%;
-    }
-  </style>
-
+<link rel="stylesheet" href="style.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
 </head>
 
 <body>
@@ -30,18 +13,11 @@
 <div id="map"></div>
 
 <div id="ui-root">
-
-  <div id="panel">
-    <h3>Style Editor</h3>
-  </div>
-
+  <div id="panel">Style Editor</div>
 </div>
 
-<!-- 🟢 左下工具栏 -->
-<div id="sidebar" class="expanded">
-
+<div id="sidebar">
   <div id="sidebar-mini" onclick="toggleSidebar()">⚔</div>
-
   <div id="sidebar-body">
 
     <button onclick="setArrowMode('line')">Line</button>
@@ -52,36 +28,23 @@
 
     <button onclick="loadKML('./kml/frontline.kml')">Load KML</button>
 
-    <p style="font-size:12px;">GitHub KML Loader</p >
-
   </div>
 </div>
 
-<!-- 🟢 JS加载顺序（关键！不能乱） -->
+<!-- ===================== -->
+<!-- 🧠 关键加载顺序 -->
+<!-- ===================== -->
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
+<script src="js/bootstrap.js"></script>
+
 <script src="js/map.js"></script>
-<script src="js/kml.js"></script>
 <script src="js/draw.js"></script>
 <script src="js/arrow.js"></script>
+<script src="js/kml.js"></script>
 <script src="js/ui.js"></script>
 
-<script src="app.js"></script>
-
-<!-- 🟢 安全启动器（防白屏关键） -->
-<script>
-window.addEventListener("load", function () {
-
-    console.log("SYSTEM BOOT");
-
-    if (typeof initMap === "function") {
-        initMap();
-    } else {
-        console.error("initMap not found");
-    }
-
-});
-</script>
+<script src="js/app.js"></script>
 
 </body>
 </html>
