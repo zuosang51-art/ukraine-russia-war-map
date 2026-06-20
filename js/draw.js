@@ -1,16 +1,45 @@
-document.addEventListener("GIS_READY",()=>{
+let drawMode = "line";
 
-  const drawn = new L.FeatureGroup().addTo(GIS.map);
-  
-  const control = new L.Control.Draw({
-    edit:{featureGroup:drawn},
-    draw:{polygon:true,rectangle:true,polyline:true,marker:true}
+function setDraw(m){
+  drawMode = m;
+}
+
+// 面积/多边形
+function initDraw(){
+
+  const drawControl = new L.Control.Draw({
+    edit:{featureGroup:drawnItems},
+    draw:{
+      polygon:true,
+      rectangle:true,
+      polyline:true,
+      marker:true
+    }
   });
 
-  GIS.map.addControl(control);
+  map.addControl(drawControl);
 
-  GIS.map.on(L.Draw.Event.CREATED,(e)=>{
-    drawn.addLayer(e.layer);
+  map.on(L.Draw.Event.CREATED,(e)=>{
+
+    const layer = e.layer;
+
+    layer.setStyle?.({
+      color:"#00ffe5",
+      fillOpacity:0.3
+    });
+
+    drawnItems.addLayer(layer);
+
   });
 
-});
+  // 箭头绘制
+  let start=null;
+
+  map.on("mousedown",(e)=>start=e.latlng);
+
+  map.on("mouseup",(e)=>{
+    if(!start)return;
+    createArrow(start,e.latlng);
+    start=null;
+  });
+}
