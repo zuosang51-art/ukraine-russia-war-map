@@ -1,204 +1,47 @@
-html,
-body {
-
-    width:100%;
-    height:100%;
-
-    margin:0;
-    padding:0;
-
-    overflow:hidden;
-
-    background:#000;
-
+html,body{
+  margin:0;
+  height:100%;
+  background:black;
 }
 
-
-#map {
-
-    position:absolute;
-
-    top:0;
-    left:0;
-
-    width:100%;
-    height:100%;
-
-    z-index:1;
-
+#map{
+  width:100%;
+  height:100%;
 }
 
-
-
-/* =====================
-   UI层
-===================== */
-
-
-#ui-root {
-
-
-    position:fixed;
-
-    top:0;
-    left:0;
-
-    width:100%;
-    height:100%;
-
-
-    z-index:1000;
-
-
-    pointer-events:none;
-
-
+#ui-root{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+  z-index:999;
 }
 
-
-
-#ui-root *{
-
-    pointer-events:auto;
-
+#panel{
+  position:absolute;
+  right:10px;
+  top:80px;
+  width:240px;
+  background:rgba(0,0,0,0.8);
+  border:1px solid #00ffe5;
+  color:#00ffe5;
+  padding:10px;
+  pointer-events:auto;
 }
 
-
-
-
-/* =====================
-   右侧样式编辑器
-===================== */
-
-
-#panel {
-
-
-    position:absolute;
-
-
-    right:10px;
-
-    top:80px;
-
-
-
-    width:260px;
-
-
-    padding:10px;
-
-
-
-    background:
-
-    rgba(0,0,0,0.85);
-
-
-
-    border:
-
-    1px solid #00ffe5;
-
-
-
-    color:#00ffe5;
-
-
+#toolbar{
+  position:fixed;
+  left:10px;
+  bottom:10px;
+  background:#000a;
+  border:1px solid #00ffe5;
+  z-index:9999;
+  padding:5px;
 }
-
-
-
-/* =====================
-   左下箭头工具
-===================== */
-
-
-#sidebar {
-
-
-    position:fixed;
-
-
-    left:10px;
-
-
-    bottom:60px;
-
-
-
-    background:
-
-    rgba(0,0,0,0.85);
-
-
-
-    border:
-
-    1px solid #00ffe5;
-
-
-
-    color:#00ffe5;
-
-
-
-    z-index:999999;
-
-
-}
-
-
-
-#sidebar-mini{
-
-
-    width:40px;
-
-    height:40px;
-
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-
-    cursor:pointer;
-
-
-}
-
-
-
-#sidebar-body{
-
-
-    padding:8px;
-
-
-}
-
-
-
-#sidebar.collapsed #sidebar-body{
-
-    display:none;
-
-}
-
-
-
-
 
 button{
-
-
-    width:100%;
-
-
-    margin:3px;
-
-
+  display:block;
+  margin:3px;
 }
