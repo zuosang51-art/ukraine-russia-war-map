@@ -2,13 +2,16 @@ let drawnItems = new L.FeatureGroup();
 let currentLayer = null;
 
 function applyStyle(layer, style) {
+
   if (layer.setStyle) {
     layer.setStyle({
       color: style.color,
       weight: style.weight,
+      opacity: style.opacity,
       dashArray: style.dashArray
     });
   }
+
   layer._styleConfig = style;
 }
 
@@ -36,6 +39,7 @@ function initDraw() {
     applyStyle(layer, {
       color: getColorByIndex(drawnItems.getLayers().length),
       weight: 3,
+      opacity: 1,
       dashArray: "0"
     });
 
@@ -44,7 +48,7 @@ function initDraw() {
     layer.on("click", () => openStylePanel(layer));
   });
 
-  // ⭐ 外部箭头API
+  // 🟡 战线箭头API
   window.createBattleArrow = function(from, to, type = "line") {
 
     const color = getColorByIndex(drawnItems.getLayers().length);
@@ -53,7 +57,8 @@ function initDraw() {
       color,
       weight: 3,
       dashArray: "0",
-      type
+      type,
+      opacity: 1
     });
 
     drawnItems.addLayer(arrow);
