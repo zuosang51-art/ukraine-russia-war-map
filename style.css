@@ -13,7 +13,7 @@ body {
 #ui-root {
   position: fixed;
   inset: 0;
-  z-index: 9999999;
+  z-index: 9999;
   pointer-events: none;
 }
 
@@ -21,23 +21,13 @@ body {
   pointer-events: auto;
 }
 
-/* 顶栏 */
-#topbar {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-
-  background: rgba(0,0,0,0.6);
-  border: 1px solid #00ffe5;
-  padding: 8px;
-  color: #00ffe5;
-}
-
-/* 🟢 左下角 sidebar */
+/* =======================
+   🟢 左下角工具栏
+======================= */
 #sidebar {
-  position: absolute;
+  position: fixed;
   left: 10px;
-  bottom: 10px;
+  bottom: 60px;
 
   width: 170px;
 
@@ -45,28 +35,26 @@ body {
   border: 1px solid #00ffe5;
 
   color: #00ffe5;
-
-  box-shadow: 0 0 15px #00ffe5;
+  z-index: 999999;
 }
 
-/* header */
 #sidebar-header {
   padding: 6px;
   cursor: pointer;
   background: rgba(0,255,229,0.1);
 }
 
-/* body */
 #sidebar-body {
   padding: 6px;
 }
 
-/* 折叠 */
 #sidebar.collapsed #sidebar-body {
   display: none;
 }
 
-/* 右侧面板 */
+/* =======================
+   🟢 右侧面板
+======================= */
 #panel {
   position: absolute;
   right: 10px;
@@ -79,4 +67,14 @@ body {
 
   color: #00ffe5;
   padding: 10px;
+}
+
+/* 按钮 */
+button {
+  width: 100%;
+  margin: 3px 0;
+  background: transparent;
+  border: 1px solid #00ffe5;
+  color: #00ffe5;
+  cursor: pointer;
 }
