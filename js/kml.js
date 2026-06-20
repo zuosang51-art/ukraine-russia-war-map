@@ -1,6 +1,8 @@
 
-
-function loadKMLFromURL(url) {
+// ============================
+// 🟢 GitHub KML加载器
+// ============================
+function loadKML(url) {
 
   fetch(url)
     .then(res => res.text())
@@ -12,23 +14,37 @@ function loadKMLFromURL(url) {
 
       for (let p of placemarks) {
 
-        const coords = p.getElementsByTagName("coordinates")[0]?.textContent;
+        const coordsNode = p.getElementsByTagName("coordinates")[0];
 
-        if (!coords) continue;
+        if (!coordsNode) continue;
 
-        const points = coords.trim().split(/\s+/).map(c => {
+        const raw = coordsNode.textContent.trim();
+
+        const points = raw.split(/\s+/).map(c => {
+
           const [lng, lat] = c.split(",").map(Number);
           return [lat, lng];
         });
 
+        if (points.length < 2) return;
+
         const layer = L.polyline(points, {
           color: "yellow",
           weight: 3
-        }).addTo(map);
+        });
+
+        layer.addTo(map);
+
+        // 🟢 永远置顶
+        layer.bringToFront();
 
         kmlLayerGroup.addLayer(layer);
-
-        layer.bringToFront();
       }
+
+      // 🟢 自动缩放到KML
+      map.fitBounds(kmlLayerGroup.getBounds());
+    })
+    .catch(err => {
+      console.error("KML load failed:", err);
     });
 }
