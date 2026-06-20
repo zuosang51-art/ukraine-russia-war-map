@@ -1,128 +1,123 @@
 // =========================
-// MAP CORE
+// 🟢 GLOBAL MAP CORE（稳定版）
 // =========================
 
-
 let map;
-
 
 let topoLayer;
 let satLayer;
 let streetLayer;
 
-let kmlLayerGroup;
+// 🟢 必须挂全局（防 kml.js 先执行）
+window.kmlLayerGroup = window.kmlLayerGroup || null;
+
 
 function initMap(){
 
     console.log("Map start");
 
-    // 防止重复初始化
-
-    if(map){
-
+    // =====================
+    // 🟢 防重复初始化（增强版）
+    // =====================
+    if (window.__MAP_INITED__) {
+        console.warn("Map already initialized");
         return;
-
     }
+
+    window.__MAP_INITED__ = true;
+
+
+
+    // =====================
+    // 🟢 创建地图
+    // =====================
     map = L.map("map",{
 
         zoomControl:true,
-
         preferCanvas:true
 
     });
 
-    map.setView(
+    window.map = map;
 
-        [48.5,37.7],
 
-        6
 
+    map.setView([48.5,37.7], 6);
+
+
+
+    // =====================
+    // 🟢 瓦片层
+    // =====================
+
+    topoLayer = L.tileLayer(
+        "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png",
+        { maxZoom:18 }
     );
 
-    // 地形
 
-    topoLayer =
-    L.tileLayer(
-
-    "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png",
-
-    {
-
-    maxZoom:18
-
-    }
-
+    satLayer = L.tileLayer(
+        "https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}"
     );
 
-    // 卫星
 
-    satLayer =
-    L.tileLayer(
-
-    "https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}"
-
+    streetLayer = L.tileLayer(
+        "https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}"
     );
 
-    // 城镇
 
-    streetLayer =
-    L.tileLayer(
-
-    "https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}"
-
-    );
-
-    // 默认地形
 
     topoLayer.addTo(map);
 
-    // 图层按钮
 
+
+    // =====================
+    // 🟢 图层控制
+    // =====================
     L.control.layers(
-
-    {
-
-    "地形":
-
-    topoLayer,
-
-    "卫星":
-
-    satLayer,
+        {
+            "地形": topoLayer,
+            "卫星": satLayer,
+            "城镇": streetLayer
+        }
+    ).addTo(map);
 
 
-    "城镇":
 
-    streetLayer
+    // =====================
+    // 🟢 KML层（最高层修复）
+    // =====================
 
+    if (!window.kmlLayerGroup) {
+        window.kmlLayerGroup = L.layerGroup();
     }
 
-    )
-
-    .addTo(map);
-
-    // KML最高层
-
-    kmlLayerGroup =
-    L.layerGroup();
-
+    kmlLayerGroup = window.kmlLayerGroup;
 
     kmlLayerGroup.addTo(map);
 
+    // 🟢 强制创建 overlay pane（防遮挡）
+    map.createPane("kmlPane");
+    map.getPane("kmlPane").style.zIndex = 650;
 
-    // 强制刷新
 
+
+    // =====================
+    // 🟢 修复渲染
+    // =====================
     setTimeout(()=>{
-
 
         map.invalidateSize();
 
-
         console.log("Map ready");
 
+    },500);
 
-    },1000);
 
 
+    // =====================
+    // 🟢 对外暴露
+    // =====================
+    window.map = map;
 
 }
