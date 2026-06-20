@@ -3,9 +3,9 @@ function createArrow(map, from, to, style = {}) {
   const {
     color,
     weight,
+    opacity,
     dashArray,
-    type,
-    opacity
+    type
   } = style;
 
   let latlngs = [];
