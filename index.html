@@ -2,21 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>GIS War Map Stable</title>
+<title>War GIS System</title>
 
 <link rel="stylesheet" href="style.css"/>
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css"/>
-
-<style>
-html,body{margin:0;height:100%;background:#000;}
-#map{height:100%;width:100%;}
-#ui-root{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;}
-#panel{position:absolute;right:10px;top:80px;width:250px;background:#000a;color:#0ff;padding:10px;border:1px solid #0ff;}
-#sidebar{position:fixed;left:10px;bottom:60px;background:#000a;border:1px solid #0ff;color:#0ff;z-index:9999;}
-#sidebar-body{padding:8px;}
-button{width:100%;margin:3px;}
-</style>
 
 </head>
 
@@ -25,40 +15,33 @@ button{width:100%;margin:3px;}
 <div id="map"></div>
 
 <div id="ui-root">
-  <div id="panel">Style Panel</div>
+
+  <div id="panel">
+    <h3>Style Editor</h3>
+    <input type="color" id="colorPicker"/>
+    <input type="range" id="opacity" min="0" max="1" step="0.1"/>
+  </div>
+
 </div>
 
-<div id="sidebar">
-  <div id="sidebar-body">
-    <button onclick="setArrowMode('line')">Line</button>
-    <button onclick="setArrowMode('dashed')">Dashed</button>
-    <button onclick="enableLabelMode()">Label</button>
-    <button onclick="loadKML('./kml/frontline.kml')">Load KML</button>
-  </div>
+<div id="toolbar">
+  <button onclick="toggleTool()">☰</button>
+  <button onclick="setDraw('line')">线</button>
+  <button onclick="setDraw('dash')">虚线</button>
+  <button onclick="setDraw('arc')">弧线</button>
+  <button onclick="setDraw('arrow')">箭头</button>
+  <button onclick="loadKML()">KML</button>
 </div>
 
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
 
-<script src="js/bootstrap.js"></script>
-<script src="js/app.js"></script>
-
-<script src="js/map.js"></script>
-<script src="js/draw.js"></script>
-<script src="js/arrow.js"></script>
-<script src="js/kml.js"></script>
-<script src="js/ui.js"></script>
+<script src="gis-core.js"></script>
+<script src="draw.js"></script>
+<script src="arrow.js"></script>
+<script src="kml.js"></script>
+<script src="ui.js"></script>
+<script src="app.js"></script>
 
 </body>
 </html>
-
-<script>
-setTimeout(()=>{
-  if(window.GIS_START){
-    console.log("FORCE START");
-    GIS_START();
-  } else {
-    console.error("GIS_START missing");
-  }
-},1000);
-</script>
