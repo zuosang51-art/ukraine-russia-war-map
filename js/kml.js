@@ -1,7 +1,4 @@
 
-// =========================
-// 🟢 KML加载器
-// =========================
 document.getElementById("kmlInput").addEventListener("change", function(e) {
 
   const file = e.target.files[0];
@@ -9,33 +6,41 @@ document.getElementById("kmlInput").addEventListener("change", function(e) {
 
   reader.onload = function(evt) {
 
-    const parser = new DOMParser();
-    const xml = parser.parseFromString(evt.target.result, "text/xml");
+    const xml = new DOMParser().parseFromString(evt.target.result, "text/xml");
 
     const placemarks = xml.getElementsByTagName("Placemark");
 
     for (let p of placemarks) {
 
-      const coords = p.getElementsByTagName("coordinates")[0]?.textContent;
+      const coordsNode = p.getElementsByTagName("coordinates")[0];
 
-      if (!coords) continue;
+      if (!coordsNode) continue;
 
-      const points = coords.trim().split(" ").map(c => {
-        const [lng, lat] = c.split(",");
-        return [parseFloat(lat), parseFloat(lng)];
+      const raw = coordsNode.textContent.trim();
+
+      const points = raw.split(/\s+/).map(c => {
+
+        const [lng, lat] = c.split(",").map(Number);
+
+        return [lat, lng]; // ✔ Leaflet格式
       });
 
-      // 🟢 永久最高层
+      if (points.length < 2) continue;
+
       const layer = L.polyline(points, {
         color: "yellow",
         weight: 3
       });
 
       layer.addTo(map);
-      layer.bringToFront(); // ⭐关键：永远置顶
+
+      // ⭐ 强制置顶
+      layer.bringToFront();
 
       kmlLayerGroup.addLayer(layer);
     }
+
+    map.fitBounds(kmlLayerGroup.getBounds());
   };
 
   reader.readAsText(file);
