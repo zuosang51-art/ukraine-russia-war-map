@@ -1,43 +1,48 @@
 body {
   margin: 0;
+  overflow: hidden;
   background: #05070f;
   font-family: Arial;
-  color: #00ffe5;
 }
 
-/* =========================
-   地图层（降低层级）
-========================= */
+/* ⭐ 地图层 */
 #map {
-  width: 100%;
-  height: 100vh;
+  position: absolute;
+  inset: 0;
   z-index: 1;
 }
 
-/* ⭐⭐⭐ Leaflet容器降层（关键修复） */
-.leaflet-container {
-  z-index: 1 !important;
+/* ⭐⭐⭐ UI层（关键修复点） */
+#ui-root {
+  position: fixed;
+  inset: 0;
+  z-index: 9999999;
+
+  /* 不阻挡地图操作 */
+  pointer-events: none;
 }
 
-/* =========================
-   顶栏
-========================= */
+/* UI内部可点击 */
+#ui-root * {
+  pointer-events: auto;
+}
+
+/* 顶栏 */
 #topbar {
-  position: fixed;
+  position: absolute;
   top: 10px;
   left: 10px;
-  z-index: 10000;
+
   background: rgba(0,0,0,0.6);
-  padding: 10px;
   border: 1px solid #00ffe5;
-  box-shadow: 0 0 15px #00ffe5;
+  padding: 10px;
+
+  color: #00ffe5;
 }
 
-/* =========================
-   UI面板（核心修复）
-========================= */
+/* 面板 */
 #panel {
-  position: fixed;   /* ⭐必须fixed */
+  position: absolute;
   right: 10px;
   top: 80px;
 
@@ -45,15 +50,10 @@ body {
 
   background: rgba(0,0,0,0.85);
   border: 1px solid #00ffe5;
-
-  padding: 10px;
   box-shadow: 0 0 25px #00ffe5;
 
-  /* ⭐⭐⭐关键：最高层级 */
-  z-index: 999999 !important;
-
-  /* 防止被地图捕获事件 */
-  pointer-events: auto;
+  color: #00ffe5;
+  padding: 10px;
 }
 
 /* 按钮 */
@@ -61,11 +61,11 @@ button {
   background: transparent;
   border: 1px solid #00ffe5;
   color: #00ffe5;
-  margin: 3px;
   cursor: pointer;
+  margin: 3px;
 }
 
-/* 输入控件 */
+/* 输入 */
 input, select {
   width: 100%;
   margin: 5px 0;
