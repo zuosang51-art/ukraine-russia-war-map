@@ -1,25 +1,32 @@
-function createArrow(from,to){
+function drawArrow(a,b){
 
-  const dx = to.lng-from.lng;
-  const dy = to.lat-from.lat;
+  const dx=b.lng-a.lng;
+  const dy=b.lat-a.lat;
 
-  const len = Math.sqrt(dx*dx+dy*dy);
+  const len=Math.sqrt(dx*dx+dy*dy);
 
-  const ux = dx/len;
-  const uy = dy/len;
+  const ux=dx/len;
+  const uy=dy/len;
 
-  const px = -uy*0.3;
-  const py = ux*0.3;
+  const px=-uy*0.3;
+  const py=ux*0.3;
 
-  L.polyline([from,to],{color:"red"}).addTo(map);
+  const color = GIS.style.color;
+
+  L.polyline([a,b],{
+    color,
+    weight:GIS.style.width,
+    opacity:GIS.style.opacity
+  }).addTo(GIS.map);
 
   L.polygon([
-    [to.lat,to.lng],
-    [to.lat-ux*0.4+px,to.lng-uy*0.4+py],
-    [to.lat-ux*0.8,to.lng-uy*0.8],
-    [to.lat-ux*0.4-px,to.lng-uy*0.4-py]
+    [b.lat,b.lng],
+    [b.lat-ux*0.4+px,b.lng-uy*0.4+py],
+    [b.lat-ux*0.8,b.lng-uy*0.8],
+    [b.lat-ux*0.4-px,b.lng-uy*0.4-py]
   ],{
-    color:"red",
-    fillOpacity:0.7
-  }).addTo(map);
+    color,
+    fillColor:color,
+    fillOpacity:GIS.style.opacity
+  }).addTo(GIS.map);
 }
