@@ -11,33 +11,38 @@
 
 <body>
 
-<!-- 🗺 地图 -->
 <div id="map"></div>
 
-<!-- 🧠 UI层 -->
 <div id="ui-root">
 
-  <!-- 🔵 顶栏（不变） -->
+  <!-- 顶栏 -->
   <div id="topbar">
     <button onclick="switchLayer('topo')">Topo</button>
     <button onclick="switchLayer('sat')">Satellite</button>
     <button onclick="switchLayer('street')">Street</button>
   </div>
 
-  <!-- 🟡 左侧工具栏（新增箭头功能区） -->
+  <!-- 🟢 左下角箭头工具栏（新增） -->
   <div id="sidebar">
-    <h3>Arrow Tools</h3>
 
-    <button onclick="setArrowMode('line')">➡ Line</button>
-    <button onclick="setArrowMode('dashed')">➖ Dashed</button>
-    <button onclick="setArrowMode('arc')">🌙 Arc</button>
+    <div id="sidebar-header" onclick="toggleSidebar()">
+      ⚔ Arrow Tools ▾
+    </div>
 
-    <hr/>
+    <div id="sidebar-body">
 
-    <button onclick="testArrow()">🧪 Test Arrow</button>
+      <button onclick="setArrowMode('line')">➡ Line</button>
+      <button onclick="setArrowMode('dashed')">➖ Dashed</button>
+      <button onclick="setArrowMode('arc')">🌙 Arc</button>
+
+      <hr/>
+
+      <p style="font-size:12px;">Drag on map to draw</p>
+
+    </div>
   </div>
 
-  <!-- 🔴 右侧样式面板（不变） -->
+  <!-- 右侧面板 -->
   <div id="panel">
     <h3>Style Editor</h3>
     <p>Select object</p>
