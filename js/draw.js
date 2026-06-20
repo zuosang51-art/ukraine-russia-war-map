@@ -1,7 +1,6 @@
 let drawnItems = new L.FeatureGroup();
 let currentLayer = null;
 
-// 默认样式
 const defaultStyle = {
   color: "#ff3b30",
   weight: 3,
@@ -24,9 +23,7 @@ function initDraw() {
   map.addLayer(drawnItems);
 
   const drawControl = new L.Control.Draw({
-    edit: {
-      featureGroup: drawnItems
-    },
+    edit: { featureGroup: drawnItems },
     draw: {
       polygon: true,
       polyline: true,
@@ -43,11 +40,18 @@ function initDraw() {
 
     const layer = e.layer;
 
-    applyStyle(layer, defaultStyle);
+    // 🎨 自动分配颜色（增强版）
+    const color = getColorByIndex(drawnItems.getLayers().length);
+
+    applyStyle(layer, {
+      color: color,
+      weight: 3,
+      dashArray: "0"
+    });
 
     drawnItems.addLayer(layer);
 
-    // 面积计算
+    // 📏 面积
     if (layer instanceof L.Polygon) {
       const area = L.GeometryUtil.geodesicArea(layer.getLatLngs()[0]);
       layer.bindPopup("Area: " + (area / 1000000).toFixed(2) + " km²");
@@ -55,6 +59,7 @@ function initDraw() {
 
     layer.bindPopup("Click to edit style");
 
+    // 🎛 点击编辑样式
     layer.on("click", function () {
       openStylePanel(layer);
     });
