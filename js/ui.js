@@ -1,5 +1,31 @@
 let currentLayer = null;
 
+// 🟡 当前箭头模式
+let currentArrowMode = "line";
+
+// =======================
+// 设置箭头模式
+// =======================
+function setArrowMode(mode) {
+  currentArrowMode = mode;
+}
+
+// =======================
+// 测试箭头
+// =======================
+function testArrow() {
+
+  const c = map.getCenter();
+
+  const from = [c.lat, c.lng];
+  const to = [c.lat + 0.8, c.lng + 0.8];
+
+  createBattleArrow(from, to, currentArrowMode);
+}
+
+// =======================
+// 样式面板
+// =======================
 function openStylePanel(layer) {
 
   currentLayer = layer;
