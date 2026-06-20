@@ -1,28 +1,41 @@
-
 // ============================
-// 🟢 KML加载（UTF-8修复版）
+// 🟢 安全KML加载系统
 // ============================
 function loadKML(url) {
 
+  if (!map) {
+    console.error("Map not ready");
+    return;
+  }
+
+  if (!window.kmlLayerGroup) {
+    window.kmlLayerGroup = L.layerGroup().addTo(map);
+  }
+
   fetch(url)
-    .then(res => res.arrayBuffer()) // ⭐关键：不用 text()
+    .then(res => res.arrayBuffer())
     .then(buffer => {
 
-      // 🟢 强制UTF-8解码
       const text = new TextDecoder("utf-8").decode(buffer);
 
       const parser = new DOMParser();
       const xml = parser.parseFromString(text, "application/xml");
 
-      // 🟢 检查解析错误
       const parseError = xml.getElementsByTagName("parsererror");
 
       if (parseError.length > 0) {
-        console.error("XML Parse Error - check encoding");
+        console.error("KML parse error");
         return;
       }
 
       const placemarks = xml.getElementsByTagName("Placemark");
+
+      if (!placemarks || placemarks.length === 0) {
+        console.warn("Empty KML");
+        return;
+      }
+
+      let allLayers = [];
 
       for (let p of placemarks) {
 
@@ -32,7 +45,6 @@ function loadKML(url) {
 
         let raw = coordsNode.textContent;
 
-        // 🟢 清理乱码/不可见字符
         raw = raw
           .replace(/^\s+|\s+$/g, "")
           .replace(/\n/g, " ")
@@ -55,23 +67,33 @@ function loadKML(url) {
         if (points.length < 2) continue;
 
         const layer = L.polyline(points, {
+
           color: "yellow",
           weight: 3,
           opacity: 0.9
+
         });
 
-        layer.addTo(map);
-
-        // 🟢 永远置顶
-        layer.bringToFront();
-
+        // ❗只加入 group，不直接 addTo(map)
         kmlLayerGroup.addLayer(layer);
+
+        allLayers.push(layer);
       }
 
-      // 🟢 自动缩放
-      if (kmlLayerGroup.getLayers().length > 0) {
-        map.fitBounds(kmlLayerGroup.getBounds());
+      // 🟢 强制最高层
+      kmlLayerGroup.bringToFront();
+
+      // 🟢 安全缩放
+      try {
+        if (allLayers.length > 0) {
+          const group = L.featureGroup(allLayers);
+          map.fitBounds(group.getBounds());
+        }
+      } catch (e) {
+        console.warn("fitBounds skipped:", e);
       }
+
+      console.log("KML loaded:", allLayers.length);
 
     })
     .catch(err => {
