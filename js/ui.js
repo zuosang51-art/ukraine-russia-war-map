@@ -1,78 +1,60 @@
-let currentLayer = null;
-
-// 🟡 当前箭头模式
 let currentArrowMode = "line";
+let drawing = false;
+let startPoint = null;
+let tempLine = null;
 
-// =======================
-// 设置箭头模式
-// =======================
+// =========================
+// 折叠功能
+// =========================
+function toggleSidebar() {
+  document.getElementById("sidebar").classList.toggle("collapsed");
+}
+
+// =========================
+// 设置模式
+// =========================
 function setArrowMode(mode) {
   currentArrowMode = mode;
 }
 
-// =======================
-// 测试箭头
-// =======================
-function testArrow() {
+// =========================
+// 地图事件（核心重写）
+// =========================
+function enableArrowDrawing() {
 
-  const c = map.getCenter();
+  map.on("mousedown", function (e) {
 
-  const from = [c.lat, c.lng];
-  const to = [c.lat + 0.8, c.lng + 0.8];
+    drawing = true;
+    startPoint = e.latlng;
 
-  createBattleArrow(from, to, currentArrowMode);
-}
+    tempLine = L.polyline([startPoint, startPoint], {
+      color: "#00ffe5",
+      dashArray: "5,5"
+    }).addTo(map);
+  });
 
-// =======================
-// 样式面板
-// =======================
-function openStylePanel(layer) {
+  map.on("mousemove", function (e) {
 
-  currentLayer = layer;
+    if (!drawing || !tempLine) return;
 
-  const s = layer._styleConfig || {
-    color: "#ff3b30",
-    weight: 3,
-    opacity: 1,
-    dashArray: "0"
-  };
+    tempLine.setLatLngs([startPoint, e.latlng]);
+  });
 
-  document.getElementById("panel").innerHTML = `
-    <h3>Style Editor</h3>
+  map.on("mouseup", function (e) {
 
-    <label>Color</label>
-    <input type="color" id="color" value="${s.color}">
+    if (!drawing) return;
 
-    <label>Weight</label>
-    <input type="range" id="weight" min="1" max="10" value="${s.weight}">
+    drawing = false;
 
-    <label>Opacity</label>
-    <input type="range" id="opacity" min="0.1" max="1" step="0.1" value="${s.opacity}">
+    const end = e.latlng;
 
-    <label>Type</label>
-    <select id="dash">
-      <option value="0">Solid</option>
-      <option value="10,10">Dashed</option>
-      <option value="15,5,2,5">Dash-Dot</option>
-    </select>
+    map.removeLayer(tempLine);
+    tempLine = null;
 
-    <button onclick="applyLayerStyle()">Apply</button>
-  `;
-
-  document.getElementById("dash").value = s.dashArray;
-}
-
-function applyLayerStyle() {
-
-  if (!currentLayer) return;
-
-  const style = {
-    color: document.getElementById("color").value,
-    weight: +document.getElementById("weight").value,
-    opacity: +document.getElementById("opacity").value,
-    dashArray: document.getElementById("dash").value
-  };
-
-  currentLayer.setStyle(style);
-  currentLayer._styleConfig = style;
+    createBattleArrow(
+      [startPoint.lat, startPoint.lng],
+      [end.lat, end.lng],
+      currentArrowMode
+    );
+  });
 }
