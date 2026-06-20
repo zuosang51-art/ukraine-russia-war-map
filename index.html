@@ -15,34 +15,7 @@
 
 <div id="ui-root">
 
-  <!-- 顶栏 -->
-  <div id="topbar">
-    <button onclick="switchLayer('topo')">Topo</button>
-    <button onclick="switchLayer('sat')">Satellite</button>
-    <button onclick="switchLayer('street')">Street</button>
-  </div>
-
-  <!-- 🟢 左下角箭头工具栏（新增） -->
-  <div id="sidebar">
-
-    <div id="sidebar-header" onclick="toggleSidebar()">
-      ⚔ Arrow Tools ▾
-    </div>
-
-    <div id="sidebar-body">
-
-      <button onclick="setArrowMode('line')">➡ Line</button>
-      <button onclick="setArrowMode('dashed')">➖ Dashed</button>
-      <button onclick="setArrowMode('arc')">🌙 Arc</button>
-
-      <hr/>
-
-      <p style="font-size:12px;">Drag on map to draw</p>
-
-    </div>
-  </div>
-
-  <!-- 右侧面板 -->
+  <!-- 🟡 右侧面板 -->
   <div id="panel">
     <h3>Style Editor</h3>
     <p>Select object</p>
@@ -50,12 +23,27 @@
 
 </div>
 
+<!-- 🟢 左下角箭头工具 -->
+<div id="sidebar">
+  <div id="sidebar-header" onclick="toggleSidebar()">
+    ⚔ Arrow Tools ▾
+  </div>
+
+  <div id="sidebar-body">
+    <button onclick="setArrowMode('line')">➡ Line</button>
+    <button onclick="setArrowMode('dashed')">➖ Dashed</button>
+    <button onclick="setArrowMode('arc')">🌙 Arc</button>
+    <hr/>
+    <p>Drag on map</p>
+  </div>
+</div>
+
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
 
-<script src="js/arrow.js"></script>
 <script src="js/colors.js"></script>
 <script src="js/map.js"></script>
+<script src="js/arrow.js"></script>
 <script src="js/draw.js"></script>
 <script src="js/ui.js"></script>
 
