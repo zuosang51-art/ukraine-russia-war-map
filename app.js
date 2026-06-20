@@ -6,11 +6,20 @@ document.addEventListener(
     initMap();
 
 
-    if(typeof initDraw==="function"){
 
-        initDraw();
+    setTimeout(()=>{
 
-    }
+
+        if(typeof initDraw==="function"){
+
+            initDraw();
+
+        }
+
+
+
+    },300);
+
 
 
 });
