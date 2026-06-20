@@ -14,7 +14,7 @@ function openStylePanel(layer) {
     <label>Color</label>
     <input type="color" id="color" value="${style.color}">
 
-    <label>Line Width</label>
+    <label>Width</label>
     <input type="range" id="weight" min="1" max="12" value="${style.weight}">
 
     <label>Line Type</label>
@@ -24,7 +24,7 @@ function openStylePanel(layer) {
       <option value="15,5,2,5">Dash-Dot</option>
     </select>
 
-    <button onclick="applyLayerStyle()">Apply Style</button>
+    <button onclick="applyLayerStyle()">Apply</button>
   `;
 
   document.getElementById("dash").value = style.dashArray;
