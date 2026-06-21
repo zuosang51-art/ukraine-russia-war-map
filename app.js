@@ -1,7 +1,3 @@
 window.onload=function(){
-
-  initGIS();
-
-  initDraw();
-
+  initMap();
 };
