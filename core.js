@@ -1,10 +1,12 @@
 window.GIS = {
   map:null,
-  drawn:null,
   mode:"line",
-  style:{
-    color:"#ff0000",
-    opacity:0.8,
-    width:3
-  }
+  lines:[],
+  anim:false,
+  colorIndex:0
 };
+
+const colors = [
+ "#ff0000","#ff4d4d","#ff7a00","#ffb347","#ffff00",
+ "#00ff00","#00ffff","#0000ff","#8000ff","#ffffff"
+];
