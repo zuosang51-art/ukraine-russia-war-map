@@ -1,9 +1,10 @@
-function drawArrow(a,b){
+function drawArrow(a,b,color){
 
   const dx=b.lng-a.lng;
   const dy=b.lat-a.lat;
 
   const len=Math.sqrt(dx*dx+dy*dy);
+  if(len===0)return;
 
   const ux=dx/len;
   const uy=dy/len;
@@ -11,13 +12,7 @@ function drawArrow(a,b){
   const px=-uy*0.3;
   const py=ux*0.3;
 
-  const color = GIS.style.color;
-
-  L.polyline([a,b],{
-    color,
-    weight:GIS.style.width,
-    opacity:GIS.style.opacity
-  }).addTo(GIS.map);
+  L.polyline([a,b],{color}).addTo(GIS.map);
 
   L.polygon([
     [b.lat,b.lng],
@@ -27,6 +22,6 @@ function drawArrow(a,b){
   ],{
     color,
     fillColor:color,
-    fillOpacity:GIS.style.opacity
+    fillOpacity:0.7
   }).addTo(GIS.map);
 }
